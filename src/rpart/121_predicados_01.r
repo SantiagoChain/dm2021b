@@ -10,10 +10,12 @@ require("data.table")
 #cargo los datos
 #"dataset" es el nombre de la variable, podria haberse llamado con cualquier nombre
 #se debe cambiar la ruta
-dataset  <- fread("M:\\datasetsOri\\paquete_premium_202011.csv")
+dataset  <- fread("C:\\Users\\SCHAIN\\OneDrive - Pampa Energia\\Desktop\\ECD\\DataMining\\DM_EF\\datasetsOri\\paquete_premium_202011.csv")
+View(dataset)
 
 #El universo agrupado por  clase_ternaria
 ftable(dataset$clase_ternaria)
+round(975/236866,3)
 
 #calculo la ganancia
 dataset[  , ganancia:= -1250 ]
@@ -61,9 +63,35 @@ sum( dataset[ cliente_edad >33, ganancia] )
 
 sum( dataset[ ctrx_quarter <= 20, ganancia] )
 
+sum( dataset[ ctrx_quarter > 20, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 1, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 0, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 8, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 2, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 10, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 30, ganancia] )
+
+sum( dataset[ ctrx_quarter <= 15, ganancia] )
+
+setorder( dataset, ctrx_quarter )
+
+dataset[ , ganancia_acumulada := cumsum( ganancia ) ]
+
+dataset[ , max(ganancia_acumulada) ]
+
+which.max( dataset$ganancia_acumulada )
+
 dataset[  ctrx_quarter<=20,  .N,  clase_ternaria ]
 
 dataset[  ctrx_quarter<=20,  list( "neg"=sum(neg),  "pos"=sum(pos) ) ]
+
+
 
 
 #------------------------------------------------------------------------------

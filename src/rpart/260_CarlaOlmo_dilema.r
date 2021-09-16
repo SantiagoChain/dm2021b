@@ -6,12 +6,12 @@ require("data.table")
 require("parallel")
 require("rpart")
 
-#setwd( "M:\\" )
-setwd( "~/buckets/b1/crudo/" )
+#setwd( "C:\\ECD\\DataMining\\DM_EF" )
+setwd( "C:\\ECD\\DataMining\\DM_EF" )
 
 #Aqui van VEINTE semillas
-ksemillas  <- c(142297, 191507, 198839, 258707, 268091, 287047, 330557, 386333, 490619, 497239,
-                513319, 571019, 589187, 649141, 671651, 711811, 814937, 830923, 884069, 957041 )
+ksemillas  <- c(13131317, 191000093, 191537, 241313, 277183, 101641 , 104231 , 104053 , 100109 , 102329,
+                104549 , 104579 , 104149 , 102763 , 103291 , 102139 , 104729, 101723 , 101929, 104309  )
 
 #------------------------------------------------------------------------------
 
@@ -64,7 +64,7 @@ ArbolesMontecarlo  <- function( data, param, semillas )
                           semillas, 
                           MoreArgs= list( data, param), 
                           SIMPLIFY= FALSE,
-                          mc.cores= 5 )  #debe ser 1 si se tiene Windows
+                          mc.cores= 1 )  #debe ser 1 si se tiene Windows
 
   #devuelvo la primer ganancia y el promedio
   return( mean( unlist( ganancias ))  ) 

@@ -197,6 +197,7 @@ if( file.exists(klog) )
 #cargo los datasets
 dataset  <- fread(karch_generacion)   #donde entreno
 dataset[ , mpasivos_margen := NULL ]
+dataset[ , mactivos_margen := NULL ]
 dapply  <- fread(karch_aplicacion)    #donde aplico el modelo
 
 #Aqui comienza la configuracion de la Bayesian Optimization

@@ -86,6 +86,51 @@ ArbolesCrossValidation  <- function( data, param, qfolds, semilla )
 #cargo los datos donde voy a ENTRENAR el modelo
 dataset  <- fread("./datasetsOri/paquete_premium_202011.csv")
 
+param_basicos1 <- list( "cp"= -1, 
+                        
+                        "minsplit"= 200,
+                        
+                        "minbucket"= 100,
+                        
+                        "maxdepth"= 6 )
+
+
+
+gan1 <- ArbolesCrossValidation( dataset,
+                                
+                                param_basicos1,
+                                
+                                qfolds= 10, # 5-fold cross validation
+                                
+                                1113 )  
+
+
+
+
+
+param_basicos2 <- list( "cp"= -1, 
+                        
+                        "minsplit"= 50,
+                        
+                        "minbucket"= 10,
+                        
+                        "maxdepth"= 6 )
+
+
+
+gan2 <- ArbolesCrossValidation( dataset,
+                                
+                                param_basicos2,
+                                
+                                qfolds= 10, # 5-fold cross validation
+                                
+                                13131313 )  
+
+
+
+gan1
+
+gan2
 
 for( vcp in c( -1, 0) ) 
 for( vmaxdepth in  c(4,5,6,7,8,10,12,14,16) )
@@ -102,6 +147,6 @@ for( vminbucket  in  unique( as.integer(c(1,2,3,4,5,  vminsplit/10, vminsplit/5,
                                   qfolds= 5, # 5-fold cross validation
                                   ksemillas[1] )  #uso solo la primer semilla para particionar el dataset
 
-  E250  <- c( param_basicos,  list( "ganancia" = gan ) )
-  loguear( E250 )
+  E250V2  <- c( param_basicos,  list( "ganancia" = gan ) )
+  loguear( E250V2 )
 }

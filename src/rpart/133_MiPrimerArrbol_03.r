@@ -9,7 +9,7 @@ require("data.table")
 require("rpart")
 require("rpart.plot")
 
-setwd("M:\\")  #Establezco el Working Directory
+setwd("C:\\Users\\SCHAIN\\OneDrive - Pampa Energia\\Desktop\\ECD\\DataMining\\DM_EF\\")  #Establezco el Working Directory
 
 #cargo los datos
 dataset <- fread("./datasetsOri/paquete_premium_202011.csv")
@@ -22,7 +22,7 @@ dev.off()
 
 # generacion del modelo e impresion del arbol, ahora con  maxdepth=20
 modeloB  <-  rpart("clase_ternaria ~ .", data = dataset, xval=0, cp=-1, maxdepth=20 )  #maxdepth vale 20 !!!
-jpeg(file ="./work/MiPrimerArbol_03B.jpg",  width = 32, height = 16, units = 'in', res = 300)
+jpeg(file ="./work/MiPrimerArbol_03C.jpg",  width = 32, height = 16, units = 'in', res = 300)
 prp(modeloB, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 dev.off()
 
