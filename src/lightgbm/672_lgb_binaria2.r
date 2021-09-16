@@ -23,7 +23,7 @@ require("DiceKriging")
 require("mlrMBO")
 
 vendor <- NA
-if( Sys.info()[['sysname']]== "Linux" ) vendor  <- system("sudo dmidecode -s bios-vendor", intern = TRUE)
+if( Sys.info()[['sysname']]== "Linux" ) vendor  <- "Google"
 
 #para poder usarlo en la PC y en la nube sin tener que cambiar la ruta
 #cambiar aqui las rutas en su maquina
