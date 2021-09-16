@@ -27,7 +27,7 @@ vendor  <- system("sudo dmidecode -s bios-vendor", intern = TRUE)
 #para poder usarlo en la PC y en la nube sin tener que cambiar la ruta
 #cambiar aqui las rutas en su maquina
 switch ( Sys.info()[['sysname']],
-         Windows = { directory.root  <-  "M:\\" },   #Windows
+         Windows = { directory.root  <-  "C:\\ECD\\DataMining\\DM_EF" },   #Windows
          Darwin  = { directory.root  <-  "~/dm/" },  #Apple MAC
          Linux   = { directory.root  <- ifelse( vendor=="Google", 
                                                 "~/buckets/b1/",             #Google Cloud
@@ -56,7 +56,7 @@ hs <- makeParamSet(
 
 campos_malos  <- c( "mpasivos_margen" )   #aqui se deben cargar todos los campos culpables del Data Drifting
 
-ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+ksemilla_azar  <- 101641  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
