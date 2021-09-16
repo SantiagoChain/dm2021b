@@ -22,7 +22,8 @@ require("lightgbm")
 require("DiceKriging")
 require("mlrMBO")
 
-vendor  <- system("sudo dmidecode -s bios-vendor", intern = TRUE)
+vendor <- NA
+if( Sys.info()[['sysname']]== "Linux" ) vendor  <- system("sudo dmidecode -s bios-vendor", intern = TRUE)
 
 #para poder usarlo en la PC y en la nube sin tener que cambiar la ruta
 #cambiar aqui las rutas en su maquina
