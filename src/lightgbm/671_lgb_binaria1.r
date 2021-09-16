@@ -23,7 +23,7 @@ require("DiceKriging")
 require("mlrMBO")
 
 vendor <- NA
-if( Sys.info()[['sysname']]== "Linux" ) vendor  <- system("sudo dmidecode -s bios-vendor", intern = TRUE)
+if( Sys.info()[['sysname']]== "Linux" ) vendor  <- "Google"
 
 #para poder usarlo en la PC y en la nube sin tener que cambiar la ruta
 #cambiar aqui las rutas en su maquina
@@ -55,7 +55,7 @@ hs <- makeParamSet(
          makeNumericParam("prob_corte",       lower= 0.020, upper=    0.035)
         )
 
-campos_malos  <- c( "mpasivos_margen" )   #aqui se deben cargar todos los campos culpables del Data Drifting
+campos_malos  <- c( "mpasivos_margen", "mactivos_margen", "mrentabilidad", "mrentabilidad_anual" )   #aqui se deben cargar todos los campos culpables del Data Drifting
 
 ksemilla_azar  <- 101641  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
