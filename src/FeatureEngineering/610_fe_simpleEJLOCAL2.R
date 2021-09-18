@@ -11,7 +11,7 @@ require("data.table")
 
 
 #Establezco el Working Directory
-setwd( "~/buckets/b1/crudo" )
+setwd( "C:\\ECD\\DataMining\\DM_EF" )
 
 
 EnriquecerDataset <- function( dataset , arch_destino )
