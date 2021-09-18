@@ -76,34 +76,6 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , mvr_mpagosdolares       := mv_mpagosdolares / mv_mlimitecompra ]
   dataset[ , mvr_mconsumototal       := mv_mconsumototal  / mv_mlimitecompra ]
   dataset[ , mvr_mpagominimo         := mv_mpagominimo  / mv_mlimitecompra ]
-  
-  #Variables creadas por mi
-  dataset[ , com_prod:= mcomisiones / cproductos ]
-  dataset[ , ant_edad:= (cliente_antiguedad / 12) / (cliente_edad - 18) ]
-  dataset[ , ctarjetas          := rowSums( cbind( ctarjeta_visa,  ctarjeta_master) , na.rm=TRUE ) ]
-  dataset[ , mtarjetas          := rowSums( cbind( mtarjeta_visa_consumo,  mtarjeta_master_consumo) , na.rm=TRUE ) ]
-  dataset[ , cdebitos_tarjetas          := rowSums( cbind( ctarjeta_visa_debitos_automaticos,  ctarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  #no encuentra mtarjeta_visa_debitos_automaticos en el dataset, sí está en el diccionario
-  #dataset[ , mdebitos_tarjetas          := rowSums( cbind( mtarjeta_visa_debitos_automaticos,  mttarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  #dataset[ , mtotal_tarjetas          := rowSums( cbind( mtarjeta_visa_consumo,  mtarjeta_master_consumo, mtarjeta_visa_debitos_automaticos, mttarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  dataset[ , cprestamos          := rowSums( cbind( cprestamos_personales,  cprestamos_prendarios, cprestamos_hipotecarios) , na.rm=TRUE ) ]
-  dataset[ , mprestamos          := rowSums( cbind( mprestamos_personales,  mprestamos_prendarios, mprestamos_hipotecarios) , na.rm=TRUE ) ]
-  dataset[ , cseguros          := rowSums( cbind( cseguro_vida,  cseguro_auto, cseguro_vivienda, cseguro_accidentes_personales) , na.rm=TRUE ) ]
-  dataset[ , cservicios          := rowSums( cbind( cpagodeservicios,  cpagomiscuentas) , na.rm=TRUE ) ]
-  dataset[ , mservicios          := rowSums( cbind( mpagodeservicios,  mpagomiscuentas) , na.rm=TRUE ) ]
-  dataset[ , mpagomínimo_tarjetas          := rowSums( cbind( Master_mpagominimo,  Visa_mpagominimo) , na.rm=TRUE ) ]
-  dataset[ , mpagopesos_tarjetas          := rowSums( cbind( Master_mpagospesos,  Visa_mpagospesos) , na.rm=TRUE ) ]
-  dataset[ , cpagomin_visa          := ifelse( Visa_mpagominimo == Visa_mpagospesos, 1, 0)  ]
-  dataset[ , cpagomin_master          := ifelse( Master_mpagominimo == Master_mpagospesos, 1, 0)  ]
-  dataset[ , cdescuentos          := rowSums( cbind( ccajeros_propios_descuentos,  ctarjeta_visa_descuentos, ctarjeta_master_descuentos) , na.rm=TRUE ) ]
-  dataset[ , mdescuentos          := rowSums( cbind( mcajeros_propios_descuentos,  mtarjeta_visa_descuentos, mtarjeta_master_descuentos) , na.rm=TRUE ) ]
-  dataset[ , ctransferencias          := rowSums( cbind( ctransferencias_recibidas,  ctransferencias_emitidas) , na.rm=TRUE ) ]
-  dataset[ , mtransferencias          := rowSums( cbind( mtransferencias_recibidas,  mtransferencias_emitidas) , na.rm=TRUE ) ]
-  dataset[ , mlimitecompra          := rowSums( cbind( Visa_mlimitecompra,  Master_mlimitecompra) , na.rm=TRUE ) ]
-  dataset[ , ctrx_ant_edad:= ctrx_quarter / (cliente_antiguedad / 12)/(cliente_edad - 18) ]
-  dataset[ , trx_mes          := rowSums( cbind( cpayroll2_trx,  catm_trx, catm_trx_other, cmobile_app_trx) , na.rm=TRUE ) ]
-  dataset[ , sueldo_trx_mes          := cpayroll_trx / rowSums( cbind( cpayroll2_trx,  catm_trx, catm_trx_other, cmobile_app_trx) , na.rm=TRUE ) ]
-  
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
