@@ -125,9 +125,11 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , montos2          := rowSums( cbind( mcaja_ahorro	,  mcuentas_saldo	) , na.rm=TRUE ) ]
   dataset[ , montos_sueldo_trx_mes          := montos2	/ sueldo_trx_mes		]
   dataset[ , trx_montos2          := montos2	/ (ctrx_quarter	/3)	]
+  dataset[ , tarjetas_trx          := mtarjetas	/ (ctrx_quarter	/3)	]
   dataset[ , montos_sueldo_trx_mes          := (mrentabilidad_annual	/ 12) /mrentabilidad		]
-  dataset[ , discreta1          := ifelse( ctrx_quarter > mean(ctrx_quarter) , 1, 0)	]
-  dataset[ , discreta2          := ifelse( mtarjetas > mean(mtarjetas) , 1, 0)	]
+  dataset[ , montosvarios_edad_ctrx      := (rowSums( cbind( mtarjetas	,  mcaja_ahorro	, mcuentas_saldo	, mpayroll	) , na.rm=TRUE )/cliente_edad)/(ctrx_quarter	/3)	 ]
+  dataset[ , discreta1          := ifelse( ctrx_quarter > mode(ctrx_quarter) , 1, 0)	]
+  #dataset[ , discreta2          := ifelse( mtarjetas > mean(mtarjetas) , 1, 0)	]
   dataset[ , discreta3          := ifelse( mcaja_ahorro > mode(mcaja_ahorro) , 1, 0)	]
 
   #valvula de seguridad para evitar valores infinitos
@@ -171,7 +173,7 @@ dir.create( "./datasets/" )
 dataset1  <- fread("./datasetsOri/paquete_premium_202011.csv")
 dataset2  <- fread("./datasetsOri/paquete_premium_202101.csv")
 
-EnriquecerDataset( dataset1, "./datasets/paquete_premium_202011_extF.csv" )
-EnriquecerDataset( dataset2, "./datasets/paquete_premium_202101_extF.csv" )
+EnriquecerDataset( dataset1, "./datasets/paquete_premium_202011_extG9.csv" )
+EnriquecerDataset( dataset2, "./datasets/paquete_premium_202101_extG9.csv" )
 
 quit( save="no")
