@@ -31,7 +31,7 @@ switch ( Sys.info()[['sysname']],
          Windows = { directory.root  <-  "C:\\ECD\\DataMining\\DM_EF" },   #Windows
          Darwin  = { directory.root  <-  "~/dm/" },  #Apple MAC
          Linux   = { directory.root  <- ifelse( vendor=="Google", 
-                                                "~/buckets/b1/",             #Google Cloud
+                                                "~/buckets/b11/",             #Google Cloud
                                                 "~/buckets/b1/crudo/" ) }    #Su propio Linux
        )
 #defino la carpeta donde trabajo
@@ -42,8 +42,8 @@ setwd( directory.root )
 kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es para continuar procesando
 
 kscript           <- "672LGBM30"
-karch_generacion  <- "~/buckets/b1/datasets/paquete_premium_202011_ext30.csv"
-karch_aplicacion  <- "~/buckets/b1/datasets/paquete_premium_202101_ext30.csv"
+karch_generacion  <- "~/buckets/b11/datasets/paquete_premium_202011_ext30.csv"
+karch_aplicacion  <- "~/buckets/b11/datasets/paquete_premium_202101_ext30.csv"
 kBO_iter    <-  200   #cantidad de iteraciones de la Optimizacion Bayesiana
 
 #Aqui se cargan los hiperparametros

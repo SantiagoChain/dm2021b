@@ -11,13 +11,13 @@ require("data.table")
 
 
 #Establezco el Working Directory
-setwd( "~/buckets/b1" )
+setwd( "~/buckets/b11" )
 
 
 EnriquecerDataset <- function( dataset , arch_destino )
 {
   columnas_originales <-  copy(colnames( dataset ))
-
+  
   #INICIO de la seccion donde se deben hacer cambios con variables nuevas
   
   #se crean los nuevos campos para MasterCard  y Visa, teniendo en cuenta los NA's
@@ -29,19 +29,19 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , mv_status03       := pmax( ifelse( is.na(Master_status), 10, Master_status) , ifelse( is.na(Visa_status), 10, Visa_status) ) ]
   dataset[ , mv_status04       := ifelse( is.na(Master_status), 10, Master_status)  +  ifelse( is.na(Visa_status), 10, Visa_status)  ]
   dataset[ , mv_status05       := ifelse( is.na(Master_status), 10, Master_status)  +  100*ifelse( is.na(Visa_status), 10, Visa_status)  ]
-
+  
   dataset[ , mv_status06       := ifelse( is.na(Visa_status), 
                                           ifelse( is.na(Master_status), 10, Master_status), 
                                           Visa_status)  ]
-
+  
   dataset[ , mv_status07       := ifelse( is.na(Master_status), 
                                           ifelse( is.na(Visa_status), 10, Visa_status), 
                                           Master_status)  ]
-
-
+  
+  
   #combino MasterCard y Visa (son 20)
- dataset[ , mv_mfinanciacion_limite := rowSums( cbind( Master_mfinanciacion_limite,  Visa_mfinanciacion_limite) , na.rm=TRUE ) ]
-
+  dataset[ , mv_mfinanciacion_limite := rowSums( cbind( Master_mfinanciacion_limite,  Visa_mfinanciacion_limite) , na.rm=TRUE ) ]
+  
   dataset[ , mv_Fvencimiento         := pmin( Master_Fvencimiento, Visa_Fvencimiento, na.rm = TRUE) ]
   dataset[ , mv_Finiciomora          := pmin( Master_Finiciomora, Visa_Finiciomora, na.rm = TRUE) ]
   dataset[ , mv_msaldototal          := rowSums( cbind( Master_msaldototal,  Visa_msaldototal) , na.rm=TRUE ) ]
@@ -61,7 +61,7 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , mv_cconsumos            := rowSums( cbind( Master_cconsumos,  Visa_cconsumos) , na.rm=TRUE ) ]
   dataset[ , mv_cadelantosefectivo   := rowSums( cbind( Master_cadelantosefectivo,  Visa_cadelantosefectivo) , na.rm=TRUE ) ]
   dataset[ , mv_mpagominimo          := rowSums( cbind( Master_mpagominimo,  Visa_mpagominimo) , na.rm=TRUE ) ]
-
+  
   #a partir de aqui juego con la suma de Mastercard y Visa (16)
   dataset[ , mvr_Master_mlimitecompra:= Master_mlimitecompra / mv_mlimitecompra ]
   dataset[ , mvr_Visa_mlimitecompra  := Visa_mlimitecompra / mv_mlimitecompra ]
@@ -126,20 +126,20 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , Smontosvarios_edad_ctrx      := (rowSums( cbind( Smtarjetas	,  mcaja_ahorro	, mcuentas_saldo	, mpayroll	) , na.rm=TRUE )/cliente_edad)/(ctrx_quarter	/3)	 ]
   dataset[ , Sdiscreta2_pagomin  := ifelse (Visa_mpagominimo == Visa_mpagospesos, 1, 
                                             ifelse (Master_mpagominimo == Master_mpagospesos, 1,
-                                            0)) ]
+                                                    0)) ]
   
   dataset[ , Smean_caja_mcuen          := (mcuentas_saldo/mean(mcaja_ahorro))*(mcaja_ahorro/mean(mcuentas_saldo))]
   dataset[ , Smcuentas_ctrx          := mcuentas_saldo/(ctrx_quarter/3)]
   dataset[ , Starj_mvaredad          := Smtarjetas	/Smontosvarios_edad]
   dataset[ , Starj_mvaredad          := Smtarjetas	/Smontosvarios_edad]
   dataset[ , mean_median1  := ifelse (Smontosvarios_edad < mean(Smontosvarios_edad),  
-                                            ifelse (ctrx_quarter < (median(ctrx_quarter))*0.75, 1, 0),0)]
+                                      ifelse (ctrx_quarter < (median(ctrx_quarter))*0.75, 1, 0),0)]
   dataset[ , Ssueldo_ctrx4          := Ssueldo_ctrx3/(median(cpayroll_trx))]
-  dataset[ , Ssueldo_ctrx5          := (Ssueldo_ctrx1*Ssueldo_ctrx2*Ssueldo_ctrx3*Ssueldo_ctrx4)/Smontosvarios_edad]
+  dataset[ , Ssueldo_ctrx5          := (Ssueldo_ctrx2*Ssueldo_ctrx3*Ssueldo_ctrx4)/Smontosvarios_edad]
   dataset[ , Smontosvarios_edad2          := Smontosvarios_edad/(median(ctrx_quarter))]
   dataset[ , Smontosvarios_edad3          := median(Smontosvarios_edad)/(var(Sctrx_ant_edad))]
   dataset[ , Smontosvarios_edad4          := var(Smontosvarios_edad)/(median(ctrx_quarter))]
- 
+  
   dataset[ , Smontosvarios_edad5          := var(ctrx_quarter)/Smontosvarios_edad]
   dataset[ , Smontosvarios_edad6          := var(Sctrx_ant_edad)/Smontosvarios_edad]
   dataset[ , Smontosvarios_edad7          := (Sctrx_ant_edad/Smontosvarios_edad)*Sctrx_ant_edad]
@@ -147,13 +147,13 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , Smontosvarios_edad9          := (ctrx_quarter*((Smontosvarios_edad/Smtarjetas)/
                                                               (1/(Sctrx_ant_edad))))/(var(ctrx_quarter))]
   dataset[ , Smontosvarios_edad10       := (Smontos2/Smontosvarios_edad)*((ctrx_quarter*((Smontosvarios_edad/Smtarjetas)/
-                                                              (1/(Sctrx_ant_edad))))/(var(ctrx_quarter)))]
+                                                                                           (1/(Sctrx_ant_edad))))/(var(ctrx_quarter)))]
   dataset[ , Smrentabilidad1          := ifelse (mrentabilidad < (0.75*(mean(mrentabilidad))),1,0)]
   dataset[ , Smrentabilidad2          := ifelse (mrentabilidad < (0.75*(median(mrentabilidad))),1,0)]
   dataset[ , Smrentabilidad3          := ifelse (Smrentabilidad2 == 1 ,
-                                                 ifelse (mrentabilidad_anual < (0.75*(median(mrentabilidad_anual))),1,0),0)]
+                                                 ifelse (mrentabilidad_annual < (0.75*(median(mrentabilidad_annual))),1,0),0)]
   dataset[ , Smrentabilidad4          := ifelse (Smrentabilidad1 == 1 ,
-                                                 ifelse (mrentabilidad_anual < (0.75*(mean(mrentabilidad_anual))),1,0),0)]
+                                                 ifelse (mrentabilidad_annual < (0.75*(mean(mrentabilidad_annual))),1,0),0)]
   
   dataset[ , Smrentabilidad_other1      := Smontosvarios_edad*Smrentabilidad1]
   dataset[ , Smrentabilidad_other2      := Smontosvarios_edad*Smrentabilidad2]
@@ -177,57 +177,39 @@ EnriquecerDataset <- function( dataset , arch_destino )
   dataset[ , Smpresta_montosvariosedad := ifelse(Smprestamos > 0.75 * median(Smprestamos), (Smprestamos/Smontosvarios_edad),(Smprestamos*Smontosvarios_edad))]
   dataset[ , Sctrxrara     := ifelse(ctrx_quarter > mean(ctrx_quarter),0,
                                      (Sdatadriffters1/Sant_edad))]
-  dataset[ , Smforex          := rowSums( cbind( mforex_buy,  mforex) , na.rm=TRUE ) ]
+  dataset[ , Smforex          := rowSums( cbind( mforex_buy,  mforex_sell) , na.rm=TRUE ) ]
   
   dataset[ , Sforex1      := Smforex / cforex]
-  dataset[ , Sforex2      := (Smforex1 / (cforex-mean(cforex)))/(1/(Smontosvarios_edad))]
-  dataset[ , Sforex3      := (Smforex1 / (1/(ctrx_quarter/3)))]
+  dataset[ , Sforex2      := (Sforex1 / (cforex-mean(cforex)))/(1/(Smontosvarios_edad))]
+  dataset[ , Sforex3      := (Sforex1 / (1/(ctrx_quarter/3)))]
   dataset[ , Sforex4      := Sforex3*Smprestamos]
   dataset[ , Sforex5      := Sforex3*Sfechalta]
   dataset[ , Sforex6      := Sforex3*Smtarjetas]
   dataset[ , Sforex7      := Sforex3*Ssueldo_trx_mes]
-  dataset[ , Scdebitosauto     := rowSums( cbind( ctarjeta_visa_debitos_automaticos,  ctarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  dataset[ , Smdebitosauto     := rowSums( cbind( mtarjeta_visa_debitos_automaticos,  mttarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  dataset[ , Sdebitoauto      := Smdebitosauto / Scdebitosauto]
   
-  dataset[ , Sdebitoauto1      := Sservicios / Sdebitoauto]
-  dataset[ , Sdebitoauto2      := Sdebitoauto1 * Sant_edad]
-  dataset[ , Sdebitoauto3      := Sdebitoauto1 / (1/(ctrx_quarter/3))]
-  dataset[ , Sdebitoauto4      := Sdebitoauto / (1/(ctrx_quarter/3))]
   dataset[ , Sservicios2      := Sservicios / (1/(ctrx_quarter/3))]
-  dataset[ , Sforex_deb      := Sforex1 / Sdebitoauto]
   dataset[ , Smctacte     := ifelse(mcuenta_corriente < (mean(mcuenta_corriente)*0.5),0,1)]
   dataset[ , Smcjahrro     := ifelse(mcaja_ahorro < (mean(mcaja_ahorro)*0.5),0,1)]
-  dataset[ , Sctacja     := rowSums( cbind( Smctacte,  Sctacja) , na.rm=TRUE ) ]
+  dataset[ , Sctacja     := rowSums( cbind( Smctacte,  Smcjahrro) , na.rm=TRUE ) ]
   dataset[ , Smtarj     := rowSums( cbind( mtarjeta_visa_consumo,  mtarjeta_master_consumo) , na.rm=TRUE ) ]
   
   dataset[ , Sctarj     := rowSums( cbind( ctarjeta_master_transacciones,  ctarjeta_visa_transacciones) , na.rm=TRUE ) ]
   dataset[ , Smtarjdisc     := ifelse(Smtarj < (mean(Smtarj)*0.5),0,1)]
   dataset[ , Sctarjdisc     := ifelse(Sctarj < (mean(Sctarj)*0.5),0,1)]
   dataset[ , Sm_c_tarj      := ifelse((Smtarj/Sctarj) < (mean(Smtarj/Sctarj)*0.5),0,1)]
-  dataset[ , Scprestamos1      := ifelse(cprestamos_personales == 0, 0, 
-                                         ifelse(cprestamos_personales > ((mean(cprestamos_personales))*0.5),2),1)]
-  dataset[ , Sm_cprestamos1      := mprestamos_personales * (Scprestamos1 * 100)]
-  dataset[ , Scpayrolltrx     := ifelse(cpayroll_trx == 0, 0, 
-                                         ifelse(cpayroll_trx > ((mean(cpayroll_trx))*1.5),2),1)]
-  dataset[ , Smpayrolltrx     := ifelse(mpayroll == 0, 0, 
-                                        ifelse(mpayroll > ((mean(mpayroll))*1.5),2),1)]
-  dataset[ , Scplazofijo     := ifelse(cplazo_fijo == 0, 0, 
-                                        ifelse(cplazo_fijo > ((mean(cplazo_fijo))*1.5),2),1)] 
-  dataset[ , Smplazofijo     := ifelse(mplazo_fijo == 0, 0, 
-                                       ifelse(mplazo_fijo > ((mean(mplazo_fijo))*1.5),2),1)] 
+  
+  dataset[ , Scpayrolltrx     := ifelse(cpayroll_trx > ((mean(cpayroll_trx))*1.5),2,1)]
+  dataset[ , Smpayrolltrx     := ifelse(mpayroll > ((mean(mpayroll))*1.5),2,1)]
+  dataset[ , Scplazofijo     := ifelse(cplazo_fijo > ((mean(cplazo_fijo))*1.5),2,1)] 
+  dataset[ , Smplazofijo     := ifelse(mplazo_fijo_pesos> ((mean(mplazo_fijo_pesos))*1.5),2,1)] 
   
   dataset[ , Smtarjdeb     := rowSums( cbind( mttarjeta_visa_debitos_automaticos,  mttarjeta_master_debitos_automaticos) , na.rm=TRUE ) ]
-  dataset[ , Smtarjdeb_disc     := ifelse(Smtarjdeb == 0, 0, 
-                                       ifelse(Smtarjdeb > ((mean(Smtarjdeb))*1.5),2),1)] 
+  dataset[ , Smtarjdeb_disc     := ifelse(Smtarjdeb > ((mean(Smtarjdeb))*1.5),2,1)] 
   dataset[ , Ssumastarj := rowSums( cbind( Master_msaldototal,  Master_mconsumospesos, Master_mconsumototal,
                                            Visa_msaldototal, Visa_mconsumospesos, Visa_msaldopesos) , na.rm=TRUE ) ]
-  dataset[ , Ssumastarj_disc     := ifelse(Ssumastarj == 0, 0, 
-                                          ifelse(Ssumastarj > ((mean(Ssumastarj))*1.5),2),1)] 
-  dataset[ , Sdesccajeros     := ifelse(ccajeros_propios_descuentos == 0, 0, 
-                                           ifelse(ccajeros_propios_descuentos > ((mean(ccajeros_propios_descuentos))*1.5),2),1)] 
-  dataset[ , Scheques_disc     := ifelse(ccheques_emitidos == 0, 0, 
-                                        ifelse(ccheques_emitidos > ((mean(ccheques_emitidos))*1.5),2),1)] 
+  dataset[ , Ssumastarj_disc     := ifelse(Ssumastarj > ((mean(Ssumastarj))*1.5),2,1)] 
+  dataset[ , Sdesccajeros     := ifelse(ccajeros_propios_descuentos > ((mean(ccajeros_propios_descuentos))*1.5),2,1)] 
+  dataset[ , Scheques_disc     := ifelse(ccheques_emitidos > ((mean(ccheques_emitidos))*1.5),2,1)] 
   
   
   
@@ -240,8 +222,8 @@ EnriquecerDataset <- function( dataset , arch_destino )
     cat( "ATENCION, hay", infinitos_qty, "valores infinitos en tu dataset. Seran pasados a NA\n" )
     dataset[mapply(is.infinite, dataset)] <- NA
   }
-
-
+  
+  
   #valvula de seguridad para evitar valores NaN  que es 0/0
   #paso los NaN a 0 , decision polemica si las hay
   #se invita a asignar un valor razonable segun la semantica del campo creado
@@ -253,11 +235,11 @@ EnriquecerDataset <- function( dataset , arch_destino )
     cat( "Si no te gusta la decision, modifica a gusto el programa!\n\n")
     dataset[mapply(is.nan, dataset)] <- 0
   }
-
+  
   #FIN de la seccion donde se deben hacer cambios con variables nuevas
-
+  
   columnas_extendidas <-  copy( setdiff(  colnames(dataset), columnas_originales ) )
-
+  
   #grabo con nombre extendido
   fwrite( dataset,
           file=arch_destino,
