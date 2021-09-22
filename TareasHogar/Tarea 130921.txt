@@ -1,0 +1,31 @@
+262_quitar_20montecarlo.r
+
+Salidas:
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mrentabilidad_annual" )
+[1] 8161042
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mrentabilidad_annual" )
+[1] 8284792
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mactivos_margen" )
+[1] 8081875
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mactivos_margen" )
+[1] 8483750
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mpasivos_margen" )
+[1] 8422917
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mpasivos_margen" )
+[1] 8452917
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mrentabilidad_annual -mactivos_margen" )
+[1] 8116667
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mrentabilidad_annual -mactivos_margen" )
+[1] 8422292
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mrentabilidad_annual -mpasivos_margen" )
+[1] 8423542
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mrentabilidad_annual -mpasivos_margen" )
+[1] 8473125
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mactivos_margen -mpasivos_margen" )
+[1] 8557083
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mactivos_margen -mpasivos_margen" )
+[1] 8505417
+> ArbolesMontecarlo( dataset, param1, ksemillas, "-mrentabilidad_annual -mactivos_margen -mpasivos_margen" )
+[1] 8418333
+> ArbolesMontecarlo( dataset, param2, ksemillas, "-mrentabilidad_annual -mactivos_margen -mpasivos_margen" )
+[1] 8503958

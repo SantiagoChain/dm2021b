@@ -10,7 +10,7 @@ require("data.table")
 
 ftirar <- function( prob, qty )
 {
-  return(  sum( runif(qty) < prob ) )
+  return(  sum( runif(100) < 0.7 ) )
 }
 
 

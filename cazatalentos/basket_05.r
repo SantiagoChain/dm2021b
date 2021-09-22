@@ -28,3 +28,4 @@ for( i in 1:9999 )
 
 
 mean( diferencias )
+
