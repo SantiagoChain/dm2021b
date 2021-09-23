@@ -8,6 +8,8 @@
 #funciona automaticamente con EXPERIMENTOS
 #va generando incrementalmente salidas para kaggle
 
+# WARNING  usted debe cambiar este script si lo corre en su propio Linux
+
 #limpio la memoria
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
@@ -22,17 +24,17 @@ require("lightgbm")
 require("DiceKriging")
 require("mlrMBO")
 
+
 vendor <- NA
 if( Sys.info()[['sysname']]== "Linux" ) vendor  <- "Google"
+
 
 #para poder usarlo en la PC y en la nube sin tener que cambiar la ruta
 #cambiar aqui las rutas en su maquina
 switch ( Sys.info()[['sysname']],
          Windows = { directory.root  <-  "C:\\ECD\\DataMining\\DM_EF" },   #Windows
          Darwin  = { directory.root  <-  "~/dm/" },  #Apple MAC
-         Linux   = { directory.root  <- ifelse( vendor=="Google", 
-                                                "~/buckets/b1/",             #Google Cloud
-                                                "~/buckets/b1/crudo/" ) }    #Su propio Linux
+         Linux   = { directory.root  <-  "~/buckets/b1/" } #Google Cloud
        )
 #defino la carpeta donde trabajo
 setwd( directory.root )
@@ -285,7 +287,7 @@ if(!file.exists(kbayesiana)) {
 
 
 #apagado de la maquina virtual, pero NO se borra
-if( vendor =="Google" ) { system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE) }
+system( "sleep 10  &&  sudo shutdown -h now", wait=FALSE)
 
 #suicidio,  elimina la maquina virtual directamente
 #system( "sleep 10  && 
