@@ -45,7 +45,7 @@ kexperimento  <- NA   #NA si se corre la primera vez, un valor concreto si es pa
 
 kscript         <- "751_lgb_bin2_histcorregido"
 
-karch_dataset    <- "./datasets/paquete_premium_corregido.csv.gz"
+karch_dataset    <- "./datasets/paquete_premium_corregido_ext.csv.gz"
 kmes_apply       <- 202101  #El mes donde debo aplicar el modelo
 kmes_train_hasta <- 202011  #Obvimente, solo puedo entrenar hasta 202011
 
@@ -63,9 +63,12 @@ hs <- makeParamSet(
          makeNumericParam("prob_corte",       lower=    0.040, upper=    0.055)
         )
 
-campos_malos  <- c("mpasivos_margen")   #aqui se deben cargar todos los campos culpables del Data Drifting
+campos_malos  <- c("mactivos_margen", "cproductos", "mcuenta_debitos_automaticos", "ccajas_extracciones", "ccajas_transacciones",
+                   "mdescubierto_preacordado", "internet", "cliente_vip", "minversion2", "mpayroll2",
+                   "ccajeros_propios_descuentos", "mcajeros_propios_descuentos", "ctarjeta_master_descuentos",
+                   "matm", "Master_status", "Visa_status", "Visa_Finiciomora")   #aqui se deben cargar todos los campos culpables del Data Drifting
 
-ksemilla_azar  <- 102191  #Aqui poner la propia semilla
+ksemilla_azar  <- 101641  #Aqui poner la propia semilla
 #------------------------------------------------------------------------------
 #Funcion que lleva el registro de los experimentos
 
